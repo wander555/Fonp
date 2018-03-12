@@ -19,10 +19,9 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class MainFragment extends SupportFragment {
 
+    //初始化
     public static MainFragment newInstance() {
-
         Bundle args = new Bundle();
-
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
@@ -31,12 +30,14 @@ public class MainFragment extends SupportFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.wechat_fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
         return view;
     }
 
+
     private void initView(View view) {
+
 
     }
 
