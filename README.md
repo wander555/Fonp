@@ -1,5 +1,5 @@
 ## Fonp!
-自制的goodfon客户端
+自制的[goodfon](http://www.goodfon.com)客户端
 
 
 ## 用到的开源库

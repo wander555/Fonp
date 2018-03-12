@@ -1,13 +1,21 @@
 package com.larryzhang.fonp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.larryzhang.fonp.fragment.MainFragment;
+
+import me.yokeyword.fragmentation.SupportActivity;
+
+public class MainActivity extends SupportActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (findFragment(MainFragment.class) == null) {
+            loadRootFragment(R.id.fl_container, MainFragment.newInstance());  //load root Fragment
+        }
     }
+
 }
