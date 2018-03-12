@@ -1,8 +1,8 @@
-##Fonp!
+## Fonp!
 自制的goodfon客户端
 
 
-##用到的开源库
+## 用到的开源库
 [NavigationTabStrip](https://github.com/Devlight/NavigationTabStrip)  
 [ShadowImageView](https://github.com/yingLanNull/ShadowImageView)  
 [GlideImageView](https://github.com/sfsheng0322/GlideImageView)  
