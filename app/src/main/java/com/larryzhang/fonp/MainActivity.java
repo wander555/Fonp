@@ -11,30 +11,29 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.larryzhang.fonp.fragment.Fragment1;
+import com.larryzhang.fonp.fragment.Fragment2;
+import com.larryzhang.fonp.fragment.Fragment3;
+import com.larryzhang.fonp.ui.ext.ScaleTransitionPagerTitleView;
 
 import net.lucode.hackware.magicindicator.FragmentContainerHelper;
 import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.BezierPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.yokeyword.fragmentation.ExtraTransaction;
-import me.yokeyword.fragmentation.ISupportActivity;
-import me.yokeyword.fragmentation.SupportActivityDelegate;
-import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
-public class MainActivity extends AppCompatActivity implements ISupportActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private static final String[] CHANNELS = new String[]{"New", "Top", "Love"};
+    private static final String[] CHANNELS = new String[]{"NEW", "POP", "RANDOM"};
     @Bind(R.id.magic_indicator1)
     MagicIndicator magicIndicator;
     @Bind(R.id.fragment_container)
@@ -78,22 +77,27 @@ public class MainActivity extends AppCompatActivity implements ISupportActivity 
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-
     //初始化fragment，有多少加多少
     private void initFragments() {
         for (int i = 0; i < CHANNELS.length; i++) {
-            Fragment1 testFragment = new Fragment1();
-            Bundle bundle = new Bundle();
+            Fragment1 fragment1 = new Fragment1();
+            Fragment2 fragment2 = new Fragment2();
+            Fragment3 fragment3 = new Fragment3();
+
+//            Bundle bundle = new Bundle();
 //            bundle.putString(Fragment1.EXTRA_TEXT, CHANNELS[i]);
-            testFragment.setArguments(bundle);
-            mFragments.add(testFragment);
+//            testFragment.setArguments(bundle);
+            mFragments.add(fragment1);
+            mFragments.add(fragment2);
+            mFragments.add(fragment3);
         }
     }
 
 
     private void initMagicIndicator1() {
-        magicIndicator.setBackgroundResource(R.drawable.round_indicator_bg);
+        magicIndicator.setBackgroundColor(Color.WHITE);
         CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -102,69 +106,41 @@ public class MainActivity extends AppCompatActivity implements ISupportActivity 
 
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
-                ClipPagerTitleView clipPagerTitleView = new ClipPagerTitleView(context);
-                clipPagerTitleView.setText(CHANNELS[index]);
-                clipPagerTitleView.setTextColor(Color.parseColor("#e94220"));
-                clipPagerTitleView.setClipColor(Color.WHITE);
-                clipPagerTitleView.setOnClickListener(new View.OnClickListener() {
+                SimplePagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
+                simplePagerTitleView.setText(CHANNELS[index]);
+                simplePagerTitleView.setTextSize(18);
+                simplePagerTitleView.setNormalColor(Color.GRAY);
+                simplePagerTitleView.setSelectedColor(Color.BLACK);
+                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mFragmentContainerHelper.handlePageSelected(index);
                         switchPages(index);
                     }
                 });
-                return clipPagerTitleView;
+                return simplePagerTitleView;
             }
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator indicator = new LinePagerIndicator(context);
-                float navigatorHeight = 45;
-                float borderWidth = UIUtil.dip2px(context, 1);
-                float lineHeight = navigatorHeight - 2 * borderWidth;
-                indicator.setLineHeight(lineHeight);
-                indicator.setRoundRadius(lineHeight / 2);
-                indicator.setYOffset(borderWidth);
-                indicator.setColors(Color.parseColor("#bc2a2a"));
+                BezierPagerIndicator indicator = new BezierPagerIndicator(context);
+                indicator.setColors(Color.parseColor("#ff4a42"), Color.parseColor("#fcde64"), Color.parseColor("#73e8f4"), Color.parseColor("#76b0ff"), Color.parseColor("#c683fe"));
                 return indicator;
+            }
+
+            @Override
+            public float getTitleWeight(Context context, int index) {
+                if (index == 0) {
+                    return 1.2f;
+                } else if (index == 1) {
+                    return 1.2f;
+                } else {
+                    return 1.2f;
+                }
             }
         });
         magicIndicator.setNavigator(commonNavigator);
         mFragmentContainerHelper.attachMagicIndicator(magicIndicator);
     }
 
-    @Override
-    public SupportActivityDelegate getSupportDelegate() {
-        return null;
-    }
-
-    @Override
-    public ExtraTransaction extraTransaction() {
-        return null;
-    }
-
-    @Override
-    public FragmentAnimator getFragmentAnimator() {
-        return null;
-    }
-
-    @Override
-    public void setFragmentAnimator(FragmentAnimator fragmentAnimator) {
-
-    }
-
-    @Override
-    public FragmentAnimator onCreateFragmentAnimator() {
-        return null;
-    }
-
-    @Override
-    public void post(Runnable runnable) {
-
-    }
-
-    @Override
-    public void onBackPressedSupport() {
-
-    }
 }
