@@ -2,12 +2,15 @@ package com.larryzhang.fonp.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static android.R.attr.duration;
+import static android.R.attr.width;
 import static java.lang.System.load;
 
 /**
@@ -44,7 +48,7 @@ public class Fragment1 extends Fragment {
 
     private List<PicListBean> data;
     private BeautyAdapter adapter;
-    private int pagerSize = 10;
+    private int pagerSize = 1;
     private int mm;
 
 
@@ -52,17 +56,14 @@ public class Fragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_1, container, false);
-//        initView(view);
         ButterKnife.bind(this, view);
         data = new ArrayList<>();
         adapter = new BeautyAdapter(data,getContext());
 
-        StaggeredGridLayoutManager recyclerViewLayoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
+        GridLayoutManager recyclerViewLayoutManager =
+                new GridLayoutManager (getContext(),2);
         refreshView.getRecyclerView().setLayoutManager(recyclerViewLayoutManager);
         refreshView.setAdapter(adapter);
-
 
         //设置下拉圆圈的颜色
         refreshView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.blue));
@@ -74,7 +75,17 @@ public class Fragment1 extends Fragment {
                     @Override
                     public void run() {
                         data.clear();
+
+                        //获取最新图片的方法
+                        //TODO
                         data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
                         data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
 
 
@@ -118,9 +129,12 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onLoadMore() {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //加载下一页图片的方法
+                        //TODO
 //                        for (int i = 0; i < pagerSize; i++) {
 //                            data.add(String.valueOf(i));
 //                        }
@@ -132,11 +146,11 @@ public class Fragment1 extends Fragment {
 //                            }
 //                        }
 //                        if (data.size() >= 70) {
-//                            refreshView.onNoMore();
+                            refreshView.onNoMore();
 //                        }
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                }, 1000);
+                        adapter.notifyDataSetChanged();
+                    }
+                }, 1000);
             }
         });
 
@@ -147,31 +161,7 @@ public class Fragment1 extends Fragment {
     }
 
     private class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> {
-
-//        @Override
-//        public void onBindViewHolder(final ItemViewHolder holder, final int position) {
-//            holder.tv.setText("my position is " + position);
-//            holder.tv.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    new SnackBar.Builder(getActivity())
-//                            .withMessage("我是" + position + "号")
-//                            .withBackgroundColorId(R.color.purple)
-//                            .withDuration(SnackBar.SHORT_SNACK)
-//                            .show();
-//                }
-//            });
-//        }
-
-
-        /**
-         * 上下文
-         */
         private Context mContext;
-        /**
-         * 数据集合
-         */
         private List<PicListBean> data;
 
         public BeautyAdapter(List<PicListBean> data, Context context) {
@@ -187,19 +177,26 @@ public class Fragment1 extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(BeautyViewHolder holder, int position) {
+        public void onBindViewHolder(final BeautyViewHolder holder, final int position) {
             //将数据设置到item上
-            PicListBean beauty = data.get(position);
+            final PicListBean beauty = data.get(position);
 
-            new SnackBar.Builder(getActivity())
-                            .withMessage(beauty.getImg())
-                            .withBackgroundColorId(R.color.purple)
+            //点击图片跳转的方法
+            //TODO
+            holder.beautyImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new SnackBar.Builder(getActivity())
+                            .withMessage(String.valueOf(beauty.getId()))
+                            .withBackgroundColorId(R.color.blue)
                             .withDuration(SnackBar.SHORT_SNACK)
                             .show();
+                }
+            });
 
+            //网络加载图片方法
             Picasso.with(mContext).load(beauty.getImg()).into(holder.beautyImage);
 
-//            holder.beautyImage.setImageResource(beauty.getImg());
         }
 
         @Override
@@ -213,6 +210,13 @@ public class Fragment1 extends Fragment {
             public BeautyViewHolder(View itemView) {
                 super(itemView);
                 beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
+
+                //设置图片的相对于屏幕的宽高比
+                int width = getContext().getResources().getDisplayMetrics().widthPixels;
+                ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
+                params.width = width/2;
+                params.height =  width/2 ;
+                beautyImage.setLayoutParams(params);
             }
         }
 
