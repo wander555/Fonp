@@ -45,6 +45,9 @@ dependencies {
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
     compile 'com.zt.maven.widget:refreshview:1.0.2'
     compile 'com.github.mrengineer13:snackbar:1.2.0'
+    compile 'com.yinglan.shadowimageview:shadowimageview:1.0.4'
+
+    compile 'com.fivehundredpx:greedo-layout:1.1.0'
 
 
 

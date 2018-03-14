@@ -20,10 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.refreshview.CustomRefreshView;
+import com.fivehundredpx.greedolayout.GreedoLayoutManager;
+import com.fivehundredpx.greedolayout.GreedoLayoutSizeCalculator;
+import com.fivehundredpx.greedolayout.GreedoSpacingItemDecoration;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.larryzhang.fonp.MainActivity;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,10 +64,17 @@ public class Fragment1 extends Fragment {
         data = new ArrayList<>();
         adapter = new BeautyAdapter(data,getContext());
 
-        GridLayoutManager recyclerViewLayoutManager =
-                new GridLayoutManager (getContext(),2);
-        refreshView.getRecyclerView().setLayoutManager(recyclerViewLayoutManager);
+        GreedoLayoutManager layoutManager = new GreedoLayoutManager(adapter);
+
+        refreshView.getRecyclerView().setLayoutManager(layoutManager);
         refreshView.setAdapter(adapter);
+
+        // Set the max row height in pixels
+        layoutManager.setMaxRowHeight(300);
+
+// If you would like to add spacing between items (Note, MeasUtils is in the sample project)
+        int spacing = Utils.dpToPx(4, getContext());
+        refreshView.getRecyclerView().addItemDecoration(new GreedoSpacingItemDecoration(spacing));
 
         //设置下拉圆圈的颜色
         refreshView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.blue));
@@ -160,7 +171,7 @@ public class Fragment1 extends Fragment {
         return view;
     }
 
-    private class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> {
+    private class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> implements GreedoLayoutSizeCalculator.SizeCalculatorDelegate {
         private Context mContext;
         private List<PicListBean> data;
 
@@ -204,6 +215,11 @@ public class Fragment1 extends Fragment {
             return data.size();
         }
 
+        @Override
+        public double aspectRatioForIndex(int i) {
+            return 0;
+        }
+
         class BeautyViewHolder extends RecyclerView.ViewHolder {
             ImageView beautyImage;
 
@@ -211,12 +227,12 @@ public class Fragment1 extends Fragment {
                 super(itemView);
                 beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
 
-                //设置图片的相对于屏幕的宽高比
-                int width = getContext().getResources().getDisplayMetrics().widthPixels;
-                ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
-                params.width = width/2;
-                params.height =  width/2 ;
-                beautyImage.setLayoutParams(params);
+//                //设置图片的相对于屏幕的宽高比
+//                int width = getContext().getResources().getDisplayMetrics().widthPixels;
+//                ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
+//                params.width = width/2;
+//                params.height =  width/2 ;
+//                beautyImage.setLayoutParams(params);
             }
         }
 
