@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         switchPages(0);
     }
 
+
+    //fragment点击跳转
     private void switchPages(int index) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -118,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                         switchPages(index);
                     }
                 });
+
+//                simplePagerTitleView.setBackgroundColor(getResources().getColor(R.color.blue));
                 return simplePagerTitleView;
             }
 

@@ -5,7 +5,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
-            url  'http://dl.bintray.com/gigamole/maven/'
+            url  'https://maven.google.com/'
         }
     }
     dependencies {
