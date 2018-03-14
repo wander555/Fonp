@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string-array name="titles" translatable="false">
+    <string-array name="titles">
         <item>最新</item>
-        <item>今日人气</item>
-        <item>随机</item>
+        <item>今日最佳 </item>
+        <item>我的</item>
     </string-array>
 
 </resources>
