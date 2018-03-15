@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
+import com.apkfuns.logutils.LogUtils;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.adapter.FolderAdapter;
 import com.larryzhang.fonp.bean.PicListBean;
@@ -130,7 +131,7 @@ public class FolderFragment extends Fragment implements FragmentBackHandler{
     public boolean onBackPressed() {
         if (unfoldableView != null && (unfoldableView.isUnfolded() || unfoldableView.isUnfolding())) {
             unfoldableView.foldBack();
-            return false;
+            return true;
         } else {
             return BackHandlerHelper.handleBackPress(this);
         }

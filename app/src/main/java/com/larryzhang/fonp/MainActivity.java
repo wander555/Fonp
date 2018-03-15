@@ -37,9 +37,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
-    private static final String[] CHANNELS = new String[]{"NEW", "POP", "RANDOM"};
+    private static final String[] CHANNELS = new String[]{"NEW", "TOP10", "RANDOM"};
     @Bind(R.id.magic_indicator1)
     MagicIndicator magicIndicator;
     @Bind(R.id.fragment_container)
@@ -90,18 +90,14 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < CHANNELS.length; i++) {
             Fragment1 fragment1 = new Fragment1();
             Fragment2 fragment2 = new Fragment2();
-//            Fragment3 fragment3 = new Fragment3();
-
             FolderFragment fragment0 = new FolderFragment();
-
 
 //            Bundle bundle = new Bundle();
 //            bundle.putString(Fragment1.EXTRA_TEXT, CHANNELS[i]);
 //            testFragment.setArguments(bundle);
-            mFragments.add(fragment0);
             mFragments.add(fragment1);
+            mFragments.add(fragment0);
             mFragments.add(fragment2);
-//            mFragments.add(fragment3);
         }
     }
 
@@ -141,16 +137,9 @@ public class MainActivity extends AppCompatActivity {
                 indicator.setColors(Color.parseColor("#ff4a42"), Color.parseColor("#fcde64"), Color.parseColor("#73e8f4"), Color.parseColor("#76b0ff"), Color.parseColor("#c683fe"));
                 return indicator;
             }
-
             @Override
             public float getTitleWeight(Context context, int index) {
-                if (index == 0) {
-                    return 1.2f;
-                } else if (index == 1) {
-                    return 1.2f;
-                } else {
-                    return 1.2f;
-                }
+                return 1.2f;
             }
         });
         magicIndicator.setNavigator(commonNavigator);
