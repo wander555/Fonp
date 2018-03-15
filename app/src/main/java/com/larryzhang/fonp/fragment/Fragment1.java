@@ -18,6 +18,7 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.utils.Utils;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,14 +178,17 @@ public class Fragment1 extends Fragment {
 
             //点击图片跳转的方法
             //TODO
+
             holder.beautyImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new SnackBar.Builder(getActivity())
-                            .withMessage(String.valueOf(beauty.getId()))
-                            .withBackgroundColorId(R.color.blue)
-                            .withDuration(SnackBar.SHORT_SNACK)
-                            .show();
+                    TastyToast.makeText(getContext(), String.valueOf(beauty.getId()), TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+
+//                    new SnackBar.Builder(getActivity())
+//                            .withMessage(String.valueOf(beauty.getId()))
+//                            .withBackgroundColorId(R.color.blue)
+//                            .withDuration(SnackBar.SHORT_SNACK)
+//                            .show();
                 }
             });
 

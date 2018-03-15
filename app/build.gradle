@@ -49,6 +49,7 @@ dependencies {
     releaseCompile 'com.antfortune.freeline:runtime-no-op:0.8.8'
 
     compile 'com.alexvasilkov:android-commons:2.0.2'
+    compile 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
 
 
 }
