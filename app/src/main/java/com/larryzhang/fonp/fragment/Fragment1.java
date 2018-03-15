@@ -1,34 +1,23 @@
 package com.larryzhang.fonp.fragment;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.refreshview.CustomRefreshView;
-import com.fivehundredpx.greedolayout.GreedoLayoutManager;
-import com.fivehundredpx.greedolayout.GreedoLayoutSizeCalculator;
-import com.fivehundredpx.greedolayout.GreedoSpacingItemDecoration;
 import com.github.mrengineer13.snackbar.SnackBar;
-import com.larryzhang.fonp.MainActivity;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,19 +51,13 @@ public class Fragment1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_1, container, false);
         ButterKnife.bind(this, view);
         data = new ArrayList<>();
-        adapter = new BeautyAdapter(data,getContext());
 
-        GreedoLayoutManager layoutManager = new GreedoLayoutManager(adapter);
+        adapter = new BeautyAdapter(data,getActivity());
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
 
         refreshView.getRecyclerView().setLayoutManager(layoutManager);
         refreshView.setAdapter(adapter);
 
-        // Set the max row height in pixels
-        layoutManager.setMaxRowHeight(300);
-
-// If you would like to add spacing between items (Note, MeasUtils is in the sample project)
-        int spacing = Utils.dpToPx(4, getContext());
-        refreshView.getRecyclerView().addItemDecoration(new GreedoSpacingItemDecoration(spacing));
 
         //设置下拉圆圈的颜色
         refreshView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.blue));
@@ -171,7 +154,7 @@ public class Fragment1 extends Fragment {
         return view;
     }
 
-    private class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> implements GreedoLayoutSizeCalculator.SizeCalculatorDelegate {
+    private class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> {
         private Context mContext;
         private List<PicListBean> data;
 
@@ -206,7 +189,7 @@ public class Fragment1 extends Fragment {
             });
 
             //网络加载图片方法
-            Picasso.with(mContext).load(beauty.getImg()).into(holder.beautyImage);
+            Glide.with(mContext).load(beauty.getImg()).into(holder.beautyImage);
 
         }
 
@@ -215,10 +198,6 @@ public class Fragment1 extends Fragment {
             return data.size();
         }
 
-        @Override
-        public double aspectRatioForIndex(int i) {
-            return 0;
-        }
 
         class BeautyViewHolder extends RecyclerView.ViewHolder {
             ImageView beautyImage;
@@ -228,11 +207,11 @@ public class Fragment1 extends Fragment {
                 beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
 
 //                //设置图片的相对于屏幕的宽高比
-//                int width = getContext().getResources().getDisplayMetrics().widthPixels;
-//                ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
-//                params.width = width/2;
-//                params.height =  width/2 ;
-//                beautyImage.setLayoutParams(params);
+                int width = getContext().getResources().getDisplayMetrics().widthPixels;
+                ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
+                params.width = width/2;
+                params.height =  width/2 ;
+                beautyImage.setLayoutParams(params);
             }
         }
 
