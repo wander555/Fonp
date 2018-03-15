@@ -2,6 +2,7 @@ package com.larryzhang.fonp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,10 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.alexvasilkov.android.commons.texts.SpannableBuilder;
+import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.fragment.Fragment1;
 import com.larryzhang.fonp.fragment.Fragment2;
 import com.larryzhang.fonp.fragment.Fragment3;
 import com.larryzhang.fonp.ui.ext.ScaleTransitionPagerTitleView;
+import com.larryzhang.fonp.utils.BackHandlerHelper;
+import com.larryzhang.fonp.utils.GlideHelper;
 
 import net.lucode.hackware.magicindicator.FragmentContainerHelper;
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -84,14 +90,18 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < CHANNELS.length; i++) {
             Fragment1 fragment1 = new Fragment1();
             Fragment2 fragment2 = new Fragment2();
-            Fragment3 fragment3 = new Fragment3();
+//            Fragment3 fragment3 = new Fragment3();
+
+            FolderFragment fragment0 = new FolderFragment();
+
 
 //            Bundle bundle = new Bundle();
 //            bundle.putString(Fragment1.EXTRA_TEXT, CHANNELS[i]);
 //            testFragment.setArguments(bundle);
+            mFragments.add(fragment0);
             mFragments.add(fragment1);
             mFragments.add(fragment2);
-            mFragments.add(fragment3);
+//            mFragments.add(fragment3);
         }
     }
 
@@ -145,6 +155,14 @@ public class MainActivity extends AppCompatActivity {
         });
         magicIndicator.setNavigator(commonNavigator);
         mFragmentContainerHelper.attachMagicIndicator(magicIndicator);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!BackHandlerHelper.handleBackPress(this)) {
+            super.onBackPressed();
+        }
     }
 
 }

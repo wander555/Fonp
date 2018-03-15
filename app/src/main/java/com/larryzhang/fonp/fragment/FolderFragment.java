@@ -1,9 +1,12 @@
-package com.larryzhang.fonp;
+package com.larryzhang.fonp.fragment;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -11,8 +14,10 @@ import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
+import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.adapter.FolderAdapter;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.utils.BackHandlerHelper;
 import com.larryzhang.fonp.utils.GlideHelper;
 
 import java.util.ArrayList;
@@ -22,8 +27,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
+/**
+ * 最新图片
+ * Created by Administrator on 2018/3/13.
+ */
 
-public class FolderActivity extends AppCompatActivity {
+public class FolderFragment extends Fragment implements FragmentBackHandler{
 
 
     @Bind(R.id.list_view)
@@ -40,20 +49,22 @@ public class FolderActivity extends AppCompatActivity {
     LinearLayout detailsLayout;
     @Bind(R.id.unfoldable_view)
     UnfoldableView unfoldableView;
+
     private List<PicListBean> data;
 
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_folder);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_folder, container, false);
+        ButterKnife.bind(this, view);
 
         data = new ArrayList<>();
         data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
         data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
         data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
 
-//        listView.setAdapter(new FolderAdapter(this));
+        listView.setAdapter(new FolderAdapter(this));
 
         touchInterceptorView.setClickable(false);
         detailsLayout.setVisibility(View.INVISIBLE);
@@ -84,24 +95,16 @@ public class FolderActivity extends AppCompatActivity {
         });
 
 
+        return view;
     }
 
-
-    @Override
-    public void onBackPressed() {
-        if (unfoldableView != null && (unfoldableView.isUnfolded() || unfoldableView.isUnfolding())) {
-            unfoldableView.foldBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     public void openDetails(View coverView, PicListBean painting) {
 
         GlideHelper.loadPaintingImage(detailsImage, painting.getImg());
         detailsTitle.setText(String.valueOf(painting.getColor()));
 
-        SpannableBuilder builder = new SpannableBuilder(this);
+        SpannableBuilder builder = new SpannableBuilder(getContext());
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                 .append("id").append(": ")
@@ -117,4 +120,20 @@ public class FolderActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (unfoldableView != null && (unfoldableView.isUnfolded() || unfoldableView.isUnfolding())) {
+            unfoldableView.foldBack();
+            return false;
+        } else {
+            return BackHandlerHelper.handleBackPress(this);
+        }
+
+    }
 }

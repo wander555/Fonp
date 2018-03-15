@@ -13,13 +13,13 @@ import com.alexvasilkov.android.commons.ui.Views;
 import com.larryzhang.fonp.FolderActivity;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.utils.GlideHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * File description.
  *
  * @author zhangqiang
  * @date 2018/3/15
@@ -28,7 +28,9 @@ import java.util.List;
 public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewHolder>
         implements View.OnClickListener {
 
-    public FolderAdapter(Context context) {
+    FolderFragment context;
+
+    public FolderAdapter(FolderFragment context) {
 
         //TODO
         List<PicListBean> data = new ArrayList<>();
@@ -38,7 +40,7 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
         data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
 
 //        setItemsList(Arrays.asList(PicListBean.getAllPaintings(context.getResources())));
-
+        this.context= context;
         setItemsList(data);
     }
 
@@ -58,12 +60,15 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
         holder.title.setText(String.valueOf(item.getId()));
     }
 
+
+
+    //点击事件
     @Override
     public void onClick(View view) {
         final PicListBean item = (PicListBean) view.getTag(R.id.list_item_image);
-        final Activity activity = ContextHelper.asActivity(view.getContext());
+//        final Activity activity = ContextHelper.asActivity(context);
 
-        ((FolderActivity) activity).openDetails(view, item);
+        context.openDetails(view, item);
 
     }
 

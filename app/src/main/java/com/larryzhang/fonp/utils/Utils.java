@@ -3,7 +3,7 @@ package com.larryzhang.fonp.utils;
 import android.content.Context;
 import android.util.TypedValue;
 
-/**
+/**工具类
  * Created by Administrator on 2018/3/14.
  */
 
