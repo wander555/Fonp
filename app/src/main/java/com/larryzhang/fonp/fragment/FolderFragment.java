@@ -51,7 +51,7 @@ public class FolderFragment extends Fragment implements FragmentBackHandler{
     @Bind(R.id.unfoldable_view)
     UnfoldableView unfoldableView;
 
-    private List<PicListBean> data;
+//    private List<PicListBean> data;
 
 
     @Nullable
@@ -59,11 +59,6 @@ public class FolderFragment extends Fragment implements FragmentBackHandler{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_folder, container, false);
         ButterKnife.bind(this, view);
-
-        data = new ArrayList<>();
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
 
         listView.setAdapter(new FolderAdapter(this));
 

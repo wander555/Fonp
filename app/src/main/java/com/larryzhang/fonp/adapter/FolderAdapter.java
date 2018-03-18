@@ -10,11 +10,15 @@ import android.widget.TextView;
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.android.commons.ui.ContextHelper;
 import com.alexvasilkov.android.commons.ui.Views;
+import com.github.florent37.materialimageloading.MaterialImageLoading;
 import com.larryzhang.fonp.FolderActivity;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.utils.GlideHelper;
+import com.larryzhang.fonp.utils.PicassoHelper;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +56,13 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
     }
 
     @Override
-    protected void onBindHolder(ViewHolder holder, int position) {
+    protected void onBindHolder(final ViewHolder holder, int position) {
         final PicListBean item = getItem(position);
 
         holder.image.setTag(R.id.list_item_image, item);
-        GlideHelper.loadPaintingImage(holder.image, item.getImg());
+        PicassoHelper.loadPaintingImage(holder.image, item.getImg(),item.getColor());
+
+//        GlideHelper.loadPaintingImage(holder.image, item.getImg());
         holder.title.setText(String.valueOf(item.getId()));
     }
 
@@ -67,9 +73,7 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
     public void onClick(View view) {
         final PicListBean item = (PicListBean) view.getTag(R.id.list_item_image);
 //        final Activity activity = ContextHelper.asActivity(context);
-
         context.openDetails(view, item);
-
     }
 
     static class ViewHolder extends ItemsAdapter.ViewHolder {

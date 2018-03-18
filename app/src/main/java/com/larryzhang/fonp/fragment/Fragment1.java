@@ -17,6 +17,7 @@ import com.example.refreshview.CustomRefreshView;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.utils.PicassoHelper;
 import com.larryzhang.fonp.utils.Utils;
 import com.sdsmdg.tastytoast.TastyToast;
 
@@ -175,6 +176,8 @@ public class Fragment1 extends Fragment {
         public void onBindViewHolder(final BeautyViewHolder holder, final int position) {
             //将数据设置到item上
             final PicListBean beauty = data.get(position);
+            //网络加载图片方法
+            PicassoHelper.loadPaintingImage(holder.beautyImage,beauty.getImg(),beauty.getColor());
 
             //点击图片跳转的方法
             //TODO
@@ -192,8 +195,6 @@ public class Fragment1 extends Fragment {
                 }
             });
 
-            //网络加载图片方法
-            Glide.with(mContext).load(beauty.getImg()).into(holder.beautyImage);
 
         }
 
