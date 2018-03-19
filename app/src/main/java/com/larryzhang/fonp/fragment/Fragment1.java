@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.apkfuns.logutils.LogUtils;
 import com.example.refreshview.CustomRefreshView;
 import com.larryzhang.fonp.MainActivity;
 import com.larryzhang.fonp.R;
@@ -82,29 +83,8 @@ public class Fragment1 extends Fragment {
                     @Override
                     public void run() {
                         data.clear();
-
                         //获取最新图片的方法
-                        //TODO
-
                         picListPresenter.getPicList(pagerSize);
-
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-
-
-//                        for (int i = 0; i < pagerSize; i++) {
-//                            if (mm >= 2) {
-//                                data.add(String.valueOf(i));
-//                            }
-//                        }
-//                        ++mm;
 //                        //模拟无数据界面
 //                        if (mm == 1) {
 //                            TextView textView = new TextView(getContext());
@@ -125,14 +105,14 @@ public class Fragment1 extends Fragment {
 //                            return;
 //                        }
                         //模拟网络出错界面
-                        if (mm == 0) {
+                        if (mm == 2) {
                             refreshView.setErrorView();
                             refreshView.complete();
                             return;
                         }
 
-                        refreshView.complete();
-                        adapter.notifyDataSetChanged();
+
+
                     }
                 }, 1000);
             }
@@ -156,7 +136,7 @@ public class Fragment1 extends Fragment {
 //                            }
 //                        }
 //                        if (data.size() >= 70) {
-                            refreshView.onNoMore();
+//                            refreshView.onNoMore();
 //                        }
                         adapter.notifyDataSetChanged();
                     }
@@ -177,12 +157,16 @@ public class Fragment1 extends Fragment {
         public void onSuccess(PicList pic) {
 //            text.setText(mBook.toString());
             data.addAll(pic.getResults());
+
+            refreshView.complete();
+            adapter.notifyDataSetChanged();
+
         }
 
         @Override
         public void onError(String result) {
             ToastyUtil.showError(result);
-            mm=0;
+            mm=2;
         }
     };
 
