@@ -82,4 +82,31 @@ public class PicListPresenter implements Presenter {
         );
     }
 
+
+    //获取今日的图片
+    public void getTodayList(int page,String date){
+        mCompositeSubscription.add(manager.getTodayList(page,date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PicList>() {
+                    @Override
+                    public void onCompleted() {
+                        if (picListBeanList != null){
+                            picListView.onSuccess(picListBeanList);
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(e);
+                        picListView.onError("请求失败！！");
+                    }
+
+                    @Override
+                    public void onNext(PicList pic) {
+                        picListBeanList = pic;
+                    }
+                })
+        );
+    }
+
 }

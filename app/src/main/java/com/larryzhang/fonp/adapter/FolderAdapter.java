@@ -7,12 +7,21 @@ import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.android.commons.ui.Views;
+import com.apkfuns.logutils.LogUtils;
 import com.larryzhang.fonp.R;
+import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.fragment.FolderFragment;
+import com.larryzhang.fonp.presenter.PicListPresenter;
 import com.larryzhang.fonp.utils.PicassoHelper;
+import com.larryzhang.fonp.utils.ToastyUtil;
+import com.larryzhang.fonp.utils.Utils;
+import com.larryzhang.fonp.view.PicListView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,19 +34,22 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
         implements View.OnClickListener {
 
     FolderFragment context;
+    List<PicListBean> data;
+    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+    String today = dateformat.format(new Date());
+
+    PicListPresenter picListPresenter = new PicListPresenter(Utils.getContext());
 
     public FolderAdapter(FolderFragment context) {
-
-        //TODO
-        List<PicListBean> data = new ArrayList<>();
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-
-//        setItemsList(Arrays.asList(PicListBean.getAllPaintings(context.getResources())));
         this.context= context;
-        setItemsList(data);
+        //加载今日top图片
+        data = new ArrayList<>();
+        picListPresenter.onCreate();
+        picListPresenter.attachView(picListView);
+
+
+        picListPresenter.getTodayList(1,today);
+
     }
 
     @Override
@@ -58,7 +70,18 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
         holder.title.setText(String.valueOf(item.getId()));
     }
 
+    private PicListView picListView = new PicListView() {
+        @Override
+        public void onSuccess(PicList pic) {
+            data.addAll(pic.getResults());
+            setItemsList(data);
+        }
 
+        @Override
+        public void onError(String result) {
+            ToastyUtil.showError(result);
+        }
+    };
 
     //点击事件
     @Override

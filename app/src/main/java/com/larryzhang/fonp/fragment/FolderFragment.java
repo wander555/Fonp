@@ -60,7 +60,6 @@ public class FolderFragment extends Fragment implements FragmentBackHandler{
         touchInterceptorView.setClickable(false);
         detailsLayout.setVisibility(View.INVISIBLE);
 
-
         unfoldableView.setOnFoldingListener(new UnfoldableView.SimpleFoldingListener() {
             @Override
             public void onUnfolding(UnfoldableView unfoldableView) {

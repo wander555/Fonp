@@ -29,4 +29,16 @@ public interface RetrofitService {
     @GET("api/mobile/fon/")
     Observable<PicList> getPicsList(@Query("page") int page);
 
+
+    /**
+     * 今日最新图片
+     * @param page
+     * @param published_on 2018-03-11
+     * @param ordering -fon_stat__votings
+     */
+    @Headers({"Token: h134puqMfd07LMDpM5UL", "Id:d85de2501f218682"})
+    @GET("api/mobile/fon/")
+    Observable<PicList> getTodayList(@Query("page") int page,@Query("published_on") String published_on,@Query("ordering") String ordering);
+
+
 }

@@ -28,4 +28,8 @@ public class DataManager {
     public Observable<PicList> getPics(int page){
         return mRetrofitService.getPicsList(page);
     }
+
+    public Observable<PicList> getTodayList(int page,String date){
+        return mRetrofitService.getTodayList(page,date,"-fon_stat__votings");
+    }
 }

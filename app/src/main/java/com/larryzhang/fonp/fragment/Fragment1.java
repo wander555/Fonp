@@ -83,6 +83,7 @@ public class Fragment1 extends Fragment {
                     @Override
                     public void run() {
                         data.clear();
+                        pagerSize=1;
                         //获取最新图片的方法
                         picListPresenter.getPicList(pagerSize);
 //                        //模拟无数据界面
@@ -104,15 +105,6 @@ public class Fragment1 extends Fragment {
 //                            refreshView.complete();
 //                            return;
 //                        }
-                        //模拟网络出错界面
-                        if (mm == 2) {
-                            refreshView.setErrorView();
-                            refreshView.complete();
-                            return;
-                        }
-
-
-
                     }
                 }, 1000);
             }
@@ -122,22 +114,9 @@ public class Fragment1 extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        pagerSize++;
                         //加载下一页图片的方法
-                        //TODO
-//                        for (int i = 0; i < pagerSize; i++) {
-//                            data.add(String.valueOf(i));
-//                        }
-//                        if (data.size() > 20 && data.size() < 50) {
-//                            refreshView.onError();
-//                        } else {
-//                            if (data.size() < 70) {
-//                                refreshView.stopLoadingMore();
-//                            }
-//                        }
-//                        if (data.size() >= 70) {
-//                            refreshView.onNoMore();
-//                        }
+                        picListPresenter.getPicList(pagerSize);
                         adapter.notifyDataSetChanged();
                     }
                 }, 1000);
@@ -150,23 +129,20 @@ public class Fragment1 extends Fragment {
     }
 
 
-
-
     private PicListView picListView = new PicListView() {
         @Override
         public void onSuccess(PicList pic) {
-//            text.setText(mBook.toString());
             data.addAll(pic.getResults());
-
             refreshView.complete();
             adapter.notifyDataSetChanged();
-
         }
 
         @Override
         public void onError(String result) {
             ToastyUtil.showError(result);
             mm=2;
+            refreshView.setErrorView();
+            refreshView.complete();
         }
     };
 
