@@ -14,15 +14,12 @@ import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
-import com.apkfuns.logutils.LogUtils;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.adapter.FolderAdapter;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.utils.BackHandlerHelper;
-import com.larryzhang.fonp.utils.GlideHelper;
+import com.larryzhang.fonp.utils.PicassoHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,8 +47,6 @@ public class FolderFragment extends Fragment implements FragmentBackHandler{
     LinearLayout detailsLayout;
     @Bind(R.id.unfoldable_view)
     UnfoldableView unfoldableView;
-
-//    private List<PicListBean> data;
 
 
     @Nullable
@@ -97,7 +92,7 @@ public class FolderFragment extends Fragment implements FragmentBackHandler{
 
     public void openDetails(View coverView, PicListBean painting) {
 
-        GlideHelper.loadPaintingImage(detailsImage, painting.getImg());
+        PicassoHelper.loadPaintingImage(detailsImage, painting.getImg(),painting.getColor());
         detailsTitle.setText(String.valueOf(painting.getColor()));
 
         SpannableBuilder builder = new SpannableBuilder(getContext());

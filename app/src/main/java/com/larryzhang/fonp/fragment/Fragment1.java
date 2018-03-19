@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.refreshview.CustomRefreshView;
@@ -18,6 +19,7 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.utils.PicassoHelper;
+import com.larryzhang.fonp.utils.ToastyUtil;
 import com.larryzhang.fonp.utils.Utils;
 import com.sdsmdg.tastytoast.TastyToast;
 
@@ -185,16 +187,9 @@ public class Fragment1 extends Fragment {
             holder.beautyImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TastyToast.makeText(getContext(), String.valueOf(beauty.getId()), TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-
-//                    new SnackBar.Builder(getActivity())
-//                            .withMessage(String.valueOf(beauty.getId()))
-//                            .withBackgroundColorId(R.color.blue)
-//                            .withDuration(SnackBar.SHORT_SNACK)
-//                            .show();
+                    ToastyUtil.showSuccess(String.valueOf(beauty.getId()));
                 }
             });
-
 
         }
 

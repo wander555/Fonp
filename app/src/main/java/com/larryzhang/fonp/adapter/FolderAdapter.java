@@ -1,24 +1,16 @@
 package com.larryzhang.fonp.adapter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
-import com.alexvasilkov.android.commons.ui.ContextHelper;
 import com.alexvasilkov.android.commons.ui.Views;
-import com.github.florent37.materialimageloading.MaterialImageLoading;
-import com.larryzhang.fonp.FolderActivity;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.fragment.FolderFragment;
-import com.larryzhang.fonp.utils.GlideHelper;
 import com.larryzhang.fonp.utils.PicassoHelper;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +64,6 @@ public class FolderAdapter extends ItemsAdapter<PicListBean, FolderAdapter.ViewH
     @Override
     public void onClick(View view) {
         final PicListBean item = (PicListBean) view.getTag(R.id.list_item_image);
-//        final Activity activity = ContextHelper.asActivity(context);
         context.openDetails(view, item);
     }
 

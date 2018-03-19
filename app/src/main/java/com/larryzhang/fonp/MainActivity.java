@@ -11,15 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.alexvasilkov.android.commons.texts.SpannableBuilder;
-import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.fragment.Fragment1;
 import com.larryzhang.fonp.fragment.Fragment2;
-import com.larryzhang.fonp.fragment.Fragment3;
 import com.larryzhang.fonp.ui.ext.ScaleTransitionPagerTitleView;
 import com.larryzhang.fonp.utils.BackHandlerHelper;
-import com.larryzhang.fonp.utils.GlideHelper;
 
 import net.lucode.hackware.magicindicator.FragmentContainerHelper;
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -53,6 +49,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
 
         initFragments();
         initMagicIndicator1();

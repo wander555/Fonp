@@ -6,6 +6,8 @@ import android.os.Looper;
 
 import com.antfortune.freeline.FreelineCore;
 import com.apkfuns.logutils.LogUtils;
+import com.larryzhang.fonp.utils.ToastyUtil;
+import com.larryzhang.fonp.utils.Utils;
 import com.wanjian.cockroach.Cockroach;
 
 
@@ -15,6 +17,12 @@ import com.wanjian.cockroach.Cockroach;
  */
 
 public class App extends Application {
+
+    private static App INSTANCE;
+
+    public static App getInstance() {
+        return INSTANCE;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,16 +37,15 @@ public class App extends Application {
                     public void run() {
                         try {
                             LogUtils.e(throwable.toString());
-//                            ToastyUtil.showError(throwable.toString());
+                            ToastyUtil.showError(throwable.toString());
                         } catch (Throwable e) {
+//                            LogUtils.e(throwable.toString());
                         }
                     }
                 });
             }
         });
 
-
-
-
+        Utils.init(this);
     }
 }
