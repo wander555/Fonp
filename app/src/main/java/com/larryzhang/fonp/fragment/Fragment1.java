@@ -13,15 +13,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.refreshview.CustomRefreshView;
-import com.github.mrengineer13.snackbar.SnackBar;
+import com.larryzhang.fonp.MainActivity;
 import com.larryzhang.fonp.R;
+import com.larryzhang.fonp.adapter.PicListAdapter;
+import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.presenter.PicListPresenter;
 import com.larryzhang.fonp.utils.PicassoHelper;
 import com.larryzhang.fonp.utils.ToastyUtil;
-import com.larryzhang.fonp.utils.Utils;
-import com.sdsmdg.tastytoast.TastyToast;
+import com.larryzhang.fonp.view.PicListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 
 import static android.R.attr.duration;
 import static android.R.attr.width;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static java.lang.System.load;
 
 /**
@@ -44,10 +46,12 @@ public class Fragment1 extends Fragment {
     CustomRefreshView refreshView;
 
     private List<PicListBean> data;
-    private BeautyAdapter adapter;
+    private PicListAdapter adapter;
     private int pagerSize = 1;
     private int mm;
 
+    //初始化Presenter
+    PicListPresenter picListPresenter = new PicListPresenter(getContext());
 
     @Nullable
     @Override
@@ -56,7 +60,12 @@ public class Fragment1 extends Fragment {
         ButterKnife.bind(this, view);
         data = new ArrayList<>();
 
-        adapter = new BeautyAdapter(data,getActivity());
+        //初始化picListPresenter
+        picListPresenter.onCreate();
+
+        picListPresenter.attachView(picListView);
+
+        adapter = new PicListAdapter(data,getActivity());
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
 
         refreshView.getRecyclerView().setLayoutManager(layoutManager);
@@ -76,15 +85,18 @@ public class Fragment1 extends Fragment {
 
                         //获取最新图片的方法
                         //TODO
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
-                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+
+                        picListPresenter.getPicList(pagerSize);
+
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg","#666633"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
+//                        data.add(new PicListBean(617852,"https://img4.goodfon.com/wallpaper/mobile-s/3/89/klubnika-tart-sweet-iagody-delicious-berries-chernika-slad-8.jpg","#333333"));
 
 
 //                        for (int i = 0; i < pagerSize; i++) {
@@ -112,12 +124,12 @@ public class Fragment1 extends Fragment {
 //                            refreshView.complete();
 //                            return;
 //                        }
-//                        //模拟网络出错界面
-//                        if (mm == 2) {
-//                            refreshView.setErrorView();
-//                            refreshView.complete();
-//                            return;
-//                        }
+                        //模拟网络出错界面
+                        if (mm == 0) {
+                            refreshView.setErrorView();
+                            refreshView.complete();
+                            return;
+                        }
 
                         refreshView.complete();
                         adapter.notifyDataSetChanged();
@@ -154,72 +166,32 @@ public class Fragment1 extends Fragment {
 
         //设置自动下拉刷新，切记要在recyclerView.setOnLoadListener()之后调用
         refreshView.setRefreshing(true);
-
         return view;
     }
 
-    private class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> {
-        private Context mContext;
-        private List<PicListBean> data;
 
-        public BeautyAdapter(List<PicListBean> data, Context context) {
-            this.data = data;
-            this.mContext = context;
+
+
+    private PicListView picListView = new PicListView() {
+        @Override
+        public void onSuccess(PicList pic) {
+//            text.setText(mBook.toString());
+            data.addAll(pic.getResults());
         }
 
         @Override
-        public BeautyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            //加载item 布局文件
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-            return new BeautyViewHolder(view);
+        public void onError(String result) {
+            ToastyUtil.showError(result);
+            mm=0;
         }
-
-        @Override
-        public void onBindViewHolder(final BeautyViewHolder holder, final int position) {
-            //将数据设置到item上
-            final PicListBean beauty = data.get(position);
-            //网络加载图片方法
-            PicassoHelper.loadPaintingImage(holder.beautyImage,beauty.getImg(),beauty.getColor());
-
-            //点击图片跳转的方法
-            //TODO
-
-            holder.beautyImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ToastyUtil.showSuccess(String.valueOf(beauty.getId()));
-                }
-            });
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-
-
-        class BeautyViewHolder extends RecyclerView.ViewHolder {
-            ImageView beautyImage;
-
-            public BeautyViewHolder(View itemView) {
-                super(itemView);
-                beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
-
-//                //设置图片的相对于屏幕的宽高比
-                int width = getContext().getResources().getDisplayMetrics().widthPixels;
-                ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
-                params.width = width/2;
-                params.height =  width/2 ;
-                beautyImage.setLayoutParams(params);
-            }
-        }
-
-    }
+    };
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+
+        picListPresenter.onStop();
+
     }
 }

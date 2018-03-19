@@ -1,7 +1,7 @@
 package com.larryzhang.fonp.bean;
 
 /**
- *图片列表
+ * 最新图片
  * @author zhangqiang
  * @date 2018/3/14
  */

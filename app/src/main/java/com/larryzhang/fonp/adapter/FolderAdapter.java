@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ *  今日最佳，可翻页式的list
  * @author zhangqiang
  * @date 2018/3/15
  */

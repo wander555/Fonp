@@ -8,7 +8,6 @@ import com.antfortune.freeline.FreelineCore;
 import com.apkfuns.logutils.LogUtils;
 import com.larryzhang.fonp.utils.ToastyUtil;
 import com.larryzhang.fonp.utils.Utils;
-import com.wanjian.cockroach.Cockroach;
 
 
 /**
@@ -28,23 +27,23 @@ public class App extends Application {
         super.onCreate();
 
         FreelineCore.init(this);
-        //打印显示异常，不crash
-        Cockroach.install(new Cockroach.ExceptionHandler() {
-            @Override
-            public void handlerException(final Thread thread, final Throwable throwable) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            LogUtils.e(throwable.toString());
-                            ToastyUtil.showError(throwable.toString());
-                        } catch (Throwable e) {
+//        //打印显示异常，不crash
+//        Cockroach.install(new Cockroach.ExceptionHandler() {
+//            @Override
+//            public void handlerException(final Thread thread, final Throwable throwable) {
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
 //                            LogUtils.e(throwable.toString());
-                        }
-                    }
-                });
-            }
-        });
+//                            ToastyUtil.showError(throwable.toString());
+//                        } catch (Throwable e) {
+////                            LogUtils.e(throwable.toString());
+//                        }
+//                    }
+//                });
+//            }
+//        });
 
         Utils.init(this);
     }
