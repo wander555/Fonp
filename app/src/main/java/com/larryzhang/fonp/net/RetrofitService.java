@@ -2,6 +2,7 @@ package com.larryzhang.fonp.net;
 
 import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.bean.SsrBean;
 
 import java.util.List;
 
@@ -39,6 +40,14 @@ public interface RetrofitService {
     @Headers({"Token: h134puqMfd07LMDpM5UL", "Id:d85de2501f218682"})
     @GET("api/mobile/fon/")
     Observable<PicList> getTodayList(@Query("page") int page,@Query("published_on") String published_on,@Query("ordering") String ordering);
+
+
+    /**
+     * 获取随即的一个的SSR配置
+     * @return
+     */
+    @GET("subscribeJson")
+    Observable<SsrBean> getSSR();
 
 
 }

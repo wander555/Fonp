@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.fragment.Fragment1;
 import com.larryzhang.fonp.fragment.Fragment2;
+import com.larryzhang.fonp.fragment.Fragment3;
 import com.larryzhang.fonp.ui.ext.ScaleTransitionPagerTitleView;
 import com.larryzhang.fonp.utils.BackHandlerHelper;
 
@@ -85,16 +86,18 @@ public class MainActivity extends AppCompatActivity  {
     //初始化fragment，有多少加多少
     private void initFragments() {
         for (int i = 0; i < CHANNELS.length; i++) {
-            Fragment1 fragment1 = new Fragment1();
-            Fragment2 fragment2 = new Fragment2();
-            FolderFragment fragment0 = new FolderFragment();
+            Fragment1 fragment1 = new Fragment1();  //最新
+            Fragment2 fragment2 = new Fragment2();     //random
+            FolderFragment fragment0 = new FolderFragment(); //今日top
 
+            Fragment3 fragment3 = new Fragment3();     //ssr
 //            Bundle bundle = new Bundle();
 //            bundle.putString(Fragment1.EXTRA_TEXT, CHANNELS[i]);
 //            testFragment.setArguments(bundle);
             mFragments.add(fragment1);
             mFragments.add(fragment0);
-            mFragments.add(fragment2);
+            mFragments.add(fragment3);
+
         }
     }
 

@@ -3,15 +3,10 @@ package com.larryzhang.fonp.net;
 import android.content.Context;
 
 import com.larryzhang.fonp.bean.PicList;
-import com.larryzhang.fonp.bean.PicListBean;
-
-import java.util.List;
+import com.larryzhang.fonp.bean.SsrBean;
 
 import rx.Observable;
 
-import static android.R.attr.name;
-import static android.R.attr.start;
-import static android.R.attr.tag;
 
 /**
  * RetrofitService中定义的接口的具体实现
@@ -25,11 +20,20 @@ public class DataManager {
     public DataManager(Context context){
         this.mRetrofitService = RetrofitHelper.getInstance(context).getServer();
     }
+
+    public DataManager(Context context,String ssr){
+        this.mRetrofitService = RetrofitHelper.getInstance(context,ssr).getServer();
+    }
     public Observable<PicList> getPics(int page){
         return mRetrofitService.getPicsList(page);
     }
 
     public Observable<PicList> getTodayList(int page,String date){
         return mRetrofitService.getTodayList(page,date,"-fon_stat__votings");
+    }
+
+
+    public Observable<SsrBean> getSSR(){
+        return mRetrofitService.getSSR();
     }
 }

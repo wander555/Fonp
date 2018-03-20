@@ -3,6 +3,7 @@ package com.larryzhang.fonp.net;
 import android.content.Context;
 
 import com.google.gson.GsonBuilder;
+import com.larryzhang.fonp.bean.SsrBean;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -29,6 +30,8 @@ public class RetrofitHelper {
         }
         return instance;
     }
+
+
     private RetrofitHelper(Context mContext){
         mCntext = mContext;
         init();
@@ -49,4 +52,26 @@ public class RetrofitHelper {
     public RetrofitService getServer(){
         return mRetrofit.create(RetrofitService.class);
     }
+
+
+
+//    用于获取ssr的地址
+    public static RetrofitHelper getInstance(Context context, String ssr) {
+        if (instance == null){
+            instance = new RetrofitHelper(context,ssr);
+        }
+        return instance;
+    }
+
+    private RetrofitHelper(Context mContext,String ssr){
+        mCntext = mContext;
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl("https://shadowsocks-share.herokuapp.com/")
+                .client(client)
+                .addConverterFactory(factory)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+    }
+
+
 }
