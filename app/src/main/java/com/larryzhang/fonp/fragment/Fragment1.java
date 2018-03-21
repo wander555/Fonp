@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,6 @@ public class Fragment1 extends Fragment {
     private List<PicListBean> data;
     private PicListAdapter adapter;
     private int pagerSize = 1;
-    private int mm;
 
     //初始化Presenter
     PicListPresenter picListPresenter = new PicListPresenter(getContext());
@@ -140,7 +140,6 @@ public class Fragment1 extends Fragment {
         @Override
         public void onError(String result) {
             ToastyUtil.showError(result);
-            mm=2;
             refreshView.setErrorView();
             refreshView.complete();
         }
@@ -150,8 +149,17 @@ public class Fragment1 extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-
         picListPresenter.onStop();
-
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 不在最前端显示 相当于调用了onPause();
+
+        }else{  // 在最前端显示 相当于调用了onResume();
+        }
+    }
+
+
 }

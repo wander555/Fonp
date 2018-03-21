@@ -1,6 +1,7 @@
 package com.larryzhang.fonp.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.utils.PicassoHelper;
 import com.larryzhang.fonp.utils.ToastyUtil;
 import com.larryzhang.fonp.utils.Utils;
+
+import net.wujingchao.android.view.SimpleTagImageView;
 
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
     @Override
     public PicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //加载item 布局文件
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.palette_item, parent, false);
         return new PicViewHolder(view);
     }
 
@@ -41,8 +44,12 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
     public void onBindViewHolder(final PicViewHolder holder, final int position) {
         //将数据设置到item上
         final PicListBean beauty = data.get(position);
+
+        holder.beautyImage.setTagBackgroundColor(Color.parseColor("#99"+beauty.getColor().split("#")[1]));
+        holder.beautyImage.setTagText(String.valueOf(beauty.getColor()));
         //网络加载图片方法
-        PicassoHelper.loadPaintingImage(holder.beautyImage, beauty.getImg(), beauty.getColor());
+        PicassoHelper.loadPaintingImage(holder.beautyImage, beauty.getImg(), "");
+
 
         //点击图片跳转的方法
         //TODO
@@ -63,18 +70,19 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
 
 
     class PicViewHolder extends RecyclerView.ViewHolder {
-        ImageView beautyImage;
+        SimpleTagImageView beautyImage;
 
         public PicViewHolder(View itemView) {
             super(itemView);
-            beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
+            beautyImage = (SimpleTagImageView) itemView.findViewById(R.id.stiv);
 
-//                //设置图片的相对于屏幕的宽高比
+////                //设置图片的相对于屏幕的宽高比
             int width = Utils.getContext().getResources().getDisplayMetrics().widthPixels;
             ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
-            params.width = width / 2;
-            params.height = width / 2;
+            params.width = width / 2-15;
+            params.height = width / 2-15;
             beautyImage.setLayoutParams(params);
+
         }
     }
 }

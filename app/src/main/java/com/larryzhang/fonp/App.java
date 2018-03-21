@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.antfortune.freeline.FreelineCore;
 import com.apkfuns.logutils.LogUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import com.larryzhang.fonp.utils.ToastyUtil;
 import com.larryzhang.fonp.utils.Utils;
 

@@ -30,7 +30,7 @@ import static android.R.attr.data;
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
- * 最新图片
+ * SSR
  * Created by Administrator on 2018/3/13.
  */
 
@@ -40,7 +40,7 @@ public class Fragment3 extends Fragment {
     TextView txtContent;
 
     //初始化Presenter
-    SsrPresenter ssrPresenter = new SsrPresenter(getContext());
+    SsrPresenter ssrPresenter = new SsrPresenter(Utils.getContext());
 
     ClipboardManager myClipboard;
 
@@ -49,7 +49,6 @@ public class Fragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_3, container, false);
-//        initView(view);
         ButterKnife.bind(this, view);
 
         myClipboard = (ClipboardManager) Utils.getContext().getSystemService(Utils.getContext().CLIPBOARD_SERVICE);
@@ -86,5 +85,7 @@ public class Fragment3 extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+
+        ssrPresenter.onStop();
     }
 }

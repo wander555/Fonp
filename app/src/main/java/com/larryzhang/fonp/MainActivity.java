@@ -2,7 +2,6 @@ package com.larryzhang.fonp;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.github.florent37.awesomebar.AwesomeBar;
+import com.gyf.barlibrary.ImmersionBar;
 import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.fragment.Fragment1;
 import com.larryzhang.fonp.fragment.Fragment2;
@@ -27,23 +28,26 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.BezierPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private static final String[] CHANNELS = new String[]{"NEW", "TOP10", "RANDOM"};
     @Bind(R.id.magic_indicator1)
     MagicIndicator magicIndicator;
     @Bind(R.id.fragment_container)
     FrameLayout fragmentContainer;
+    @Bind(R.id.bar)
+    AwesomeBar bar;
 
     private List<Fragment> mFragments = new ArrayList<Fragment>();
-    private FragmentContainerHelper mFragmentContainerHelper = new FragmentContainerHelper();
+    private FragmentContainerHelper mFragmentContainerHelper = new FragmentContainerHelper(magicIndicator);
+
+    private ImmersionBar mImmersionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.init();   //所有子类都将继承这些相同的属性
 
         initFragments();
         initMagicIndicator1();
@@ -137,6 +143,7 @@ public class MainActivity extends AppCompatActivity  {
                 indicator.setColors(Color.parseColor("#ff4a42"), Color.parseColor("#fcde64"), Color.parseColor("#73e8f4"), Color.parseColor("#76b0ff"), Color.parseColor("#c683fe"));
                 return indicator;
             }
+
             @Override
             public float getTitleWeight(Context context, int index) {
                 return 1.2f;
@@ -152,6 +159,13 @@ public class MainActivity extends AppCompatActivity  {
         if (!BackHandlerHelper.handleBackPress(this)) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
     }
 
 }

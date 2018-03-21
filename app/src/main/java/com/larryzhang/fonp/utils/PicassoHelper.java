@@ -22,28 +22,45 @@ public class PicassoHelper {
     private PicassoHelper(){}
 
     public static void loadPaintingImage(final ImageView image, String url,String color) {
+        if(!color.equals("")){
+            //用一张纯色图片做占位符
+            Bitmap bitmap = Bitmap.createBitmap(360, 360,
+                    Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.parseColor(color));//填充颜色
 
-        //用一张纯色图片做占位符
-        Bitmap bitmap = Bitmap.createBitmap(360, 360,
-                Bitmap.Config.ARGB_8888);
-        bitmap.eraseColor(Color.parseColor(color));//填充颜色
+            Picasso.with(Utils.getContext())
+                    .load(url)
+                    .fit()
+                    .centerCrop()
+                    .placeholder(new BitmapDrawable(bitmap))
+                    .into(image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            MaterialImageLoading.animate(image).setDuration(2000).start();
+                        }
+                        @Override
+                        public void onError() {
 
-        Picasso.with(image.getContext().getApplicationContext())
-                .load(url)
-                .fit()
-                .centerCrop()
-                .placeholder(new BitmapDrawable(bitmap))
-//                .placeholder(Color.parseColor(color))
-                .into(image, new Callback() {
-                @Override
-                public void onSuccess() {
-                    MaterialImageLoading.animate(image).setDuration(2000).start();
-                }
-                @Override
-                public void onError() {
+                        }
+                    });
+        }
+        else{
+            Picasso.with(Utils.getContext())
+                    .load(url)
+                    .fit()
+                    .centerCrop()
+                    .into(image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            MaterialImageLoading.animate(image).setDuration(2000).start();
+                        }
+                        @Override
+                        public void onError() {
 
-                }
-        });
+                        }
+                    });
+        }
+
     }
 
 
