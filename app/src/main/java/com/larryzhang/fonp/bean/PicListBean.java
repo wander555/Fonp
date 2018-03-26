@@ -1,5 +1,9 @@
 package com.larryzhang.fonp.bean;
 
+import android.util.Log;
+
+import com.apkfuns.logutils.LogUtils;
+
 /**
  * 最新图片
  * @author zhangqiang
@@ -40,6 +44,13 @@ public class PicListBean {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+
+    //获取url最后的文件详细名称
+    public String getTag(){
+        String url= this.getImg();
+        return url.split(".com")[1].split("/")[5].split(".jpg")[0];
     }
 
     public PicListBean(int id, String img, String color) {

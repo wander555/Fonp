@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicListBean;
@@ -14,7 +16,8 @@ import com.larryzhang.fonp.utils.PicassoHelper;
 import com.larryzhang.fonp.utils.ToastyUtil;
 import com.larryzhang.fonp.utils.Utils;
 
-import net.wujingchao.android.view.SimpleTagImageView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -44,16 +47,13 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
     public void onBindViewHolder(final PicViewHolder holder, final int position) {
         //将数据设置到item上
         final PicListBean beauty = data.get(position);
+        holder.relativeLayout.setBackgroundColor(Color.parseColor(beauty.getColor()));
+        holder.textView.setText(beauty.getTag());
 
-        holder.beautyImage.setTagBackgroundColor(Color.parseColor("#99"+beauty.getColor().split("#")[1]));
-        holder.beautyImage.setTagText(String.valueOf(beauty.getColor()));
-        //网络加载图片方法
-        PicassoHelper.loadPaintingImage(holder.beautyImage, beauty.getImg(), "");
-
+        PicassoHelper.loadPaintingImage(holder.beautyImage,beauty.getImg(),"");
 
         //点击图片跳转的方法
         //TODO
-
         holder.beautyImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,19 +70,15 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
 
 
     class PicViewHolder extends RecyclerView.ViewHolder {
-        SimpleTagImageView beautyImage;
+        ImageView beautyImage;
+        RelativeLayout relativeLayout;
+        TextView textView;
 
         public PicViewHolder(View itemView) {
             super(itemView);
-            beautyImage = (SimpleTagImageView) itemView.findViewById(R.id.stiv);
-
-////                //设置图片的相对于屏幕的宽高比
-            int width = Utils.getContext().getResources().getDisplayMetrics().widthPixels;
-            ViewGroup.LayoutParams params = beautyImage.getLayoutParams();
-            params.width = width / 2-15;
-            params.height = width / 2-15;
-            beautyImage.setLayoutParams(params);
-
+            beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.layout);
+            textView=(TextView)itemView.findViewById(R.id.text);
         }
     }
 }

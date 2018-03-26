@@ -1,6 +1,5 @@
 package com.larryzhang.fonp.fragment;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,14 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.larryzhang.fonp.R;
-import com.larryzhang.fonp.utils.PicassoHelper;
-import com.larryzhang.fonp.utils.Utils;
-
-import net.wujingchao.android.view.SimpleTagImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,9 +19,6 @@ import butterknife.ButterKnife;
 public class Fragment2 extends Fragment {
 
 
-    @Bind(R.id.stiv)
-    SimpleTagImageView stiv;
-
     private String url = "https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg";
 
     @Nullable
@@ -38,7 +27,6 @@ public class Fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.palette_item, container, false);
         ButterKnife.bind(this, view);
 
-        PicassoHelper.loadPaintingImage(stiv,url,"");
         return view;
     }
 

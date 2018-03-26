@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.github.florent37.awesomebar.AwesomeBar;
 import com.gyf.barlibrary.ImmersionBar;
 import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.fragment.Fragment1;
@@ -41,11 +40,9 @@ public class MainActivity extends AppCompatActivity {
     MagicIndicator magicIndicator;
     @Bind(R.id.fragment_container)
     FrameLayout fragmentContainer;
-    @Bind(R.id.bar)
-    AwesomeBar bar;
 
     private List<Fragment> mFragments = new ArrayList<Fragment>();
-    private FragmentContainerHelper mFragmentContainerHelper = new FragmentContainerHelper(magicIndicator);
+    private FragmentContainerHelper mFragmentContainerHelper = new FragmentContainerHelper();
 
     private ImmersionBar mImmersionBar;
 
@@ -102,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 //            testFragment.setArguments(bundle);
             mFragments.add(fragment1);
             mFragments.add(fragment0);
-            mFragments.add(fragment3);
+            mFragments.add(fragment2);
 
         }
     }

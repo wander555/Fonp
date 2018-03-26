@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.wujingchao.android.view.SimpleTagImageView
-    xmlns:simple="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/stiv"
-    android:layout_margin="4dip"
+    android:id="@+id/layout"
+    android:layout_margin="5dp"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    simple:simple_tag_textSize="18sp"
-    simple:simple_corner_distance="40dp"
-    simple:simple_tag_background_color="#af27CDC0"
-    simple:simple_tag_orientation="left_bottom"
-    simple:simple_tag_width="30dip"
-    simple:simple_tag_textColor="@android:color/white"
-    simple:simple_tag_enable="true"
-    simple:simple_tag_round_radius="10dp" />
+    android:layout_height="380dp"
+    android:orientation="horizontal"
+    >
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/image_item"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+     />
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_below="@+id/image_item"
+        />
+</RelativeLayout>
