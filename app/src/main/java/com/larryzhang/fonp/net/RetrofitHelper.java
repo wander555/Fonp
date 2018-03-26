@@ -24,6 +24,7 @@ public class RetrofitHelper {
     GsonConverterFactory factory = GsonConverterFactory.create(new GsonBuilder().create());
     private static RetrofitHelper instance = null;
     private Retrofit mRetrofit = null;
+
     public static RetrofitHelper getInstance(Context context){
         if (instance == null){
             instance = new RetrofitHelper(context);
@@ -56,21 +57,34 @@ public class RetrofitHelper {
 
 
 //    用于获取ssr的地址
-    public static RetrofitHelper getInstance(Context context, String ssr) {
-        if (instance == null){
-            instance = new RetrofitHelper(context,ssr);
-        }
+    public static RetrofitHelper getInstance(Context context, String type) {
+//        if (instance == null){
+            instance = new RetrofitHelper(context,type);
+//        }
         return instance;
     }
 
-    private RetrofitHelper(Context mContext,String ssr){
+    private RetrofitHelper(Context mContext,String type){
         mCntext = mContext;
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl("https://shadowsocks-share.herokuapp.com/")
-                .client(client)
-                .addConverterFactory(factory)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+
+        if(type.equals("ssr")){
+            mRetrofit = new Retrofit.Builder()
+                    .baseUrl("https://shadowsocks-share.herokuapp.com/")
+                    .client(client)
+                    .addConverterFactory(factory)
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+        }
+        else if(type.equals("translate")){
+            mRetrofit = new Retrofit.Builder()
+                    .baseUrl("http://api.fanyi.baidu.com/")
+                    .client(client)
+                    .addConverterFactory(factory)
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+
+        }
+
     }
 
 

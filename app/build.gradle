@@ -57,6 +57,7 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+    compile 'com.nex3z:flow-layout:1.2.2'
 
     testCompile 'com.antfortune.freeline:runtime-no-op:0.8.8'
     testCompile 'junit:junit:4.12'

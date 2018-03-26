@@ -48,9 +48,9 @@ public class PicListBean {
 
 
     //获取url最后的文件详细名称
-    public String getTag(){
+    public String[] getTag(){
         String url= this.getImg();
-        return url.split(".com")[1].split("/")[5].split(".jpg")[0];
+        return url.split(".com")[1].split("/")[5].split(".jpg")[0].split("-");
     }
 
     public PicListBean(int id, String img, String color) {

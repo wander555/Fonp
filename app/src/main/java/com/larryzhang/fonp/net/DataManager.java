@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.SsrBean;
+import com.larryzhang.fonp.bean.TranslateBean;
 
 import rx.Observable;
 
@@ -21,9 +22,11 @@ public class DataManager {
         this.mRetrofitService = RetrofitHelper.getInstance(context).getServer();
     }
 
-    public DataManager(Context context,String ssr){
-        this.mRetrofitService = RetrofitHelper.getInstance(context,ssr).getServer();
+    public DataManager(Context context,String type){
+        this.mRetrofitService = RetrofitHelper.getInstance(context,type).getServer();
     }
+
+
     public Observable<PicList> getPics(int page){
         return mRetrofitService.getPicsList(page);
     }
@@ -33,7 +36,20 @@ public class DataManager {
     }
 
 
+    /**
+     * ssr
+     * @return
+     */
     public Observable<SsrBean> getSSR(){
         return mRetrofitService.getSSR();
+    }
+
+
+    /**
+     * 翻译
+     * @return
+     */
+    public Observable<Object> getTranslate(String q,String from ,String to,String appid,String salt ,String  sign){
+        return mRetrofitService.getTransInfo(q, from, to, appid, salt, sign);
     }
 }

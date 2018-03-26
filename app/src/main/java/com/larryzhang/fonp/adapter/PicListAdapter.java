@@ -3,6 +3,7 @@ package com.larryzhang.fonp.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.larryzhang.fonp.R;
+import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.bean.TranslateBean;
+import com.larryzhang.fonp.presenter.PicListPresenter;
+import com.larryzhang.fonp.presenter.TransPresenter;
+import com.larryzhang.fonp.utils.MD5Utils;
 import com.larryzhang.fonp.utils.PicassoHelper;
 import com.larryzhang.fonp.utils.ToastyUtil;
 import com.larryzhang.fonp.utils.Utils;
+import com.larryzhang.fonp.view.PicListView;
+import com.larryzhang.fonp.view.TranslateView;
+import com.nex3z.flowlayout.FlowLayout;
 
 
 import org.w3c.dom.Text;
 
 import java.util.List;
+
+import static com.larryzhang.fonp.utils.Utils.getContext;
 
 /**
  *  首页图片的adapter
@@ -30,6 +42,16 @@ import java.util.List;
 public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewHolder> {
     private Context mContext;
     private List<PicListBean> data;
+
+    private String  appid="20180326000140123";
+    private String  sec_key="jhG0bUkjxG0yESrdhhpU";
+
+
+    private TextView textView;
+
+    //初始化Presenter
+    TransPresenter transPresenter = new TransPresenter(getContext());
+
 
     public PicListAdapter(List<PicListBean> data, Context context) {
         this.data = data;
@@ -48,7 +70,18 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
         //将数据设置到item上
         final PicListBean beauty = data.get(position);
         holder.relativeLayout.setBackgroundColor(Color.parseColor(beauty.getColor()));
-        holder.textView.setText(beauty.getTag());
+
+        //tag集合
+        String[] dummyTexts = beauty.getTag();
+        for (int i=0;i<dummyTexts.length;i++) {
+            if(i<3){
+                if(dummyTexts[i].length()>2){
+                    TextView textView = buildLabel(dummyTexts[i]);
+                    holder.flowLayout.addView(textView);  // Add TextView to FlowLayout
+                }
+            }
+
+       }
 
         PicassoHelper.loadPaintingImage(holder.beautyImage,beauty.getImg(),"");
 
@@ -72,13 +105,46 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
     class PicViewHolder extends RecyclerView.ViewHolder {
         ImageView beautyImage;
         RelativeLayout relativeLayout;
-        TextView textView;
+        FlowLayout flowLayout;
 
         public PicViewHolder(View itemView) {
             super(itemView);
             beautyImage = (ImageView) itemView.findViewById(R.id.image_item);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.layout);
-            textView=(TextView)itemView.findViewById(R.id.text);
+            flowLayout=(FlowLayout)itemView.findViewById(R.id.flow);
         }
     }
+
+    private TextView buildLabel(String text) {
+        //初始化picListPresenter
+        transPresenter.onCreate();
+        transPresenter.attachView(translateView);
+
+        String salt = String.valueOf(System.currentTimeMillis());
+        String src = appid + "fuck" + salt + sec_key; // 加密前的原文
+        transPresenter.getTranslate("fuck","en","zh",appid,salt, MD5Utils.md5(src));
+
+            textView = new TextView(getContext());
+            textView.setText(text);
+            textView.setTextColor(Color.WHITE);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            textView.setPadding(Utils.dpToPx(4, getContext()), Utils.dpToPx(4, getContext()),Utils.dpToPx(4, getContext()),Utils.dpToPx(4, getContext()));
+//            textView.setBackgroundResource(R.drawable.label_bg);
+            return textView;
+    }
+
+
+    private TranslateView translateView = new TranslateView() {
+        @Override
+        public void onSuccess(TranslateBean result) {
+            LogUtils.e(result);
+
+            transPresenter.onStop();
+        }
+
+        @Override
+        public void onError(String result) {
+            ToastyUtil.showError(result);
+        }
+    };
 }

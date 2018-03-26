@@ -3,8 +3,10 @@ package com.larryzhang.fonp.net;
 import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
 import com.larryzhang.fonp.bean.SsrBean;
+import com.larryzhang.fonp.bean.TranslateBean;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -49,5 +51,19 @@ public interface RetrofitService {
     @GET("subscribeJson")
     Observable<SsrBean> getSSR();
 
+
+    /**
+     * 百度翻译调用
+     * @param q
+     * @param from
+     * @param to
+     * @param appid
+     * @param salt
+     * @param sign
+     * @return
+     */
+    @GET("api/trans/vip/translate")
+    Observable<Object> getTransInfo(@Query("q") String q, @Query("from") String from, @Query("to") String to,
+                                     @Query("appid") String appid, @Query("salt") String salt, @Query("sign") String sign);
 
 }
