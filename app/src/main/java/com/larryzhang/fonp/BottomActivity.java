@@ -22,6 +22,7 @@ import com.yalantis.jellytoolbar.widget.JellyToolbar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.majiajie.pagerbottomtabstrip.MaterialMode;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 
@@ -57,6 +58,7 @@ public class BottomActivity extends AppCompatActivity {
 
         //toolbar
 //        toolbar.getToolbar().setNavigationIcon(R.mipmap.ic_menu);
+//        toolbar.set
         toolbar.setJellyListener(jellyListener);
         editText = (AppCompatEditText) LayoutInflater.from(this).inflate(R.layout.edit_text, null);
         editText.setBackgroundResource(R.color.colorTransparent);

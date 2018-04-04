@@ -30,6 +30,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+
+
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -54,7 +57,7 @@ dependencies {
     compile 'com.nex3z:flow-layout:1.2.2'
     compile 'me.majiajie:pager-bottom-tab-strip:2.2.5'
     compile 'com.github.yalantis:jellytoolbar:v1.0'
-
+    compile 'com.github.arimorty:floatingsearchview:2.1.1'
     testCompile 'com.antfortune.freeline:runtime-no-op:0.8.8'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.antfortune.freeline:runtime:0.8.8'
