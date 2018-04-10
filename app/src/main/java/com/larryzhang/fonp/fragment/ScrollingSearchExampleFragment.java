@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,20 +14,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apkfuns.logutils.LogUtils;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.larryzhang.fonp.R;
-import com.larryzhang.fonp.adapter.ColorSuggestion;
-import com.larryzhang.fonp.adapter.DataHelper;
-import com.larryzhang.fonp.bean.ColorWrapper;
+import com.larryzhang.fonp.adapter.KeyDataHelper;
+import com.larryzhang.fonp.adapter.KeySuggestion;
+import com.larryzhang.fonp.bean.PicListBean;
 
 import java.util.List;
 
-
 public class ScrollingSearchExampleFragment extends BaseExampleFragment implements AppBarLayout.OnOffsetChangedListener {
-    private final String TAG = "BlankFragment";
 
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
 
@@ -64,6 +62,7 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
     private void setupSearchBar() {
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
 
+            //当输入文字时调用的方法
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
@@ -81,11 +80,11 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
                     //根据输入的内容查询关键字
                     //simulates a query call to a data source
                     //with a new query.
-                    DataHelper.findSuggestions(getActivity(), newQuery, 5,
-                            FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
+                    KeyDataHelper.findSuggestions(getActivity(), newQuery, 5,
+                            FIND_SUGGESTION_SIMULATED_DELAY, new KeyDataHelper.OnFindSuggestionsListener() {
 
                                 @Override
-                                public void onResults(List<ColorSuggestion> results) {
+                                public void onResults(List<KeySuggestion> results) {
 
                                     //this will swap the data and
                                     //render the collapse/expand animations as necessary
@@ -98,54 +97,61 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
                             });
                 }
 
-                Log.d(TAG, "onSearchTextChanged()");
+                LogUtils.d( "onSearchTextChanged()");
             }
         });
 
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+                KeySuggestion colorSuggestion = (KeySuggestion) searchSuggestion;
 
-                ColorSuggestion colorSuggestion = (ColorSuggestion) searchSuggestion;
-                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
-                        new DataHelper.OnFindColorsListener() {
-
+                KeyDataHelper.findResult(getActivity(), colorSuggestion.getBody(),
+                        new KeyDataHelper.OnFindResultsListener() {
                             @Override
-                            public void onResults(List<ColorWrapper> results) {
+                            public void onResults(List<PicListBean> results) {
                                 //show search results
+                                LogUtils.e( results);
+
                             }
 
                         });
-                Log.d(TAG, "onSuggestionClicked()");
+                LogUtils.d( "onSuggestionClicked()");
 
                 mLastQuery = searchSuggestion.getBody();
             }
 
+
+            //点击回车进行搜索时。。。。
             @Override
             public void onSearchAction(String query) {
                 mLastQuery = query;
 
-                DataHelper.findColors(getActivity(), query,
-                        new DataHelper.OnFindColorsListener() {
-
+                KeyDataHelper.findResult(getActivity(), query,
+                        new KeyDataHelper.OnFindResultsListener() {
                             @Override
-                            public void onResults(List<ColorWrapper> results) {
+                            public void onResults(List<PicListBean> results) {
                                  //show search results
+                                LogUtils.e( results);
                             }
 
                         });
-                Log.d(TAG, "onSearchAction()");
+                LogUtils.d( "onSearchAction()");
             }
         });
 
+
+
         mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+
+            //点击输入框时...
             @Override
             public void onFocus() {
 
                 //show suggestions when search bar gains focus (typically history suggestions)
-                mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
+                mSearchView.swapSuggestions(KeyDataHelper.getHistory(getActivity(), 3));
 
-                Log.d(TAG, "onFocus()");
+                LogUtils.d( "onFocus()");
             }
 
             @Override
@@ -156,8 +162,7 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
 
                 //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
                 //mSearchView.setSearchText(searchSuggestion.getBody());
-
-                Log.d(TAG, "onFocusCleared()");
+                LogUtils.d( "onFocusCleared()");
             }
         });
 
@@ -196,8 +201,7 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
         mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
             @Override
             public void onHomeClicked() {
-
-                Log.d(TAG, "onHomeClicked()");
+                LogUtils.d("onHomeClicked()");
             }
         });
 
@@ -216,7 +220,7 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
             @Override
             public void onBindSuggestion(View suggestionView, ImageView leftIcon,
                                          TextView textView, SearchSuggestion item, int itemPosition) {
-                ColorSuggestion colorSuggestion = (ColorSuggestion) item;
+                KeySuggestion colorSuggestion = (KeySuggestion) item;
 
                 String textColor = mIsDarkSearchTheme ? "#ffffff" : "#000000";
                 String textLight = mIsDarkSearchTheme ? "#bfbfbf" : "#787878";
