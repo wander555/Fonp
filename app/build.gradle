@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -55,9 +56,10 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile 'com.nex3z:flow-layout:1.2.2'
-    compile 'me.majiajie:pager-bottom-tab-strip:2.2.5'
-    compile 'com.github.yalantis:jellytoolbar:v1.0'
     compile 'com.github.arimorty:floatingsearchview:2.1.1'
+    compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
+
+    compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'com.antfortune.freeline:runtime-no-op:0.8.8'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.antfortune.freeline:runtime:0.8.8'
