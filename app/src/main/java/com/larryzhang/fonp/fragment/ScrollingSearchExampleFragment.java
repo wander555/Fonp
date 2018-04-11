@@ -2,9 +2,11 @@ package com.larryzhang.fonp.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,12 +21,21 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
+import com.example.refreshview.CustomRefreshView;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.adapter.KeyDataHelper;
 import com.larryzhang.fonp.adapter.KeySuggestion;
+import com.larryzhang.fonp.adapter.PicListAdapter;
+import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
+import com.larryzhang.fonp.presenter.PicListPresenter;
+import com.larryzhang.fonp.utils.ToastyUtil;
+import com.larryzhang.fonp.view.PicListView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 public class ScrollingSearchExampleFragment extends BaseExampleFragment implements AppBarLayout.OnOffsetChangedListener {
 
@@ -32,10 +43,20 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
 
     private FloatingSearchView mSearchView;
     private AppBarLayout mAppBar;
+    private CustomRefreshView refreshView;
 
     private boolean mIsDarkSearchTheme = false;
-
     private String mLastQuery = "";
+
+
+    //下拉刷新页面
+    private List<PicListBean> data;
+    private PicListAdapter adapter;
+    private int pagerSize = 1;
+
+    //初始化Presenter
+    PicListPresenter picListPresenter = new PicListPresenter(getContext());
+
 
     public ScrollingSearchExampleFragment() {
         // Required empty public constructor
@@ -52,12 +73,109 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
         super.onViewCreated(view, savedInstanceState);
         mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
         mAppBar = (AppBarLayout) view.findViewById(R.id.appbar);
-
+        refreshView = (CustomRefreshView)view.findViewById(R.id.refresh_view);
         mAppBar.addOnOffsetChangedListener(this);
 
         setupDrawer();
         setupSearchBar();
+
+        setupRecycleView();
     }
+
+
+    private void setupRecycleView(){
+        data = new ArrayList<>();
+
+        //初始化picListPresenter
+        picListPresenter.onCreate();
+
+        picListPresenter.attachView(picListView);
+
+        adapter = new PicListAdapter(data,getActivity());
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
+
+        refreshView.getRecyclerView().setLayoutManager(layoutManager);
+        refreshView.setAdapter(adapter);
+
+
+        //设置下拉圆圈的颜色
+        refreshView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.blue));
+
+        refreshView.setOnLoadListener(new CustomRefreshView.OnLoadListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        data.clear();
+                        pagerSize=1;
+                        //获取最新图片的方法
+                        picListPresenter.getPicList(pagerSize);
+//                        //模拟无数据界面
+//                        if (mm == 1) {
+//                            TextView textView = new TextView(getContext());
+//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
+//                            textView.setLayoutParams(params);
+//                            textView.setGravity(Gravity.CENTER);
+//                            textView.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    refreshView.setRefreshing(true);
+//                                }
+//                            });
+//
+//                            textView.setText("自定义的无数据界面");
+//                            refreshView.setCreateView(textView);
+//                            refreshView.setEmptyView("暂无数据");
+//                            refreshView.complete();
+//                            return;
+//                        }
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onLoadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pagerSize++;
+                        //加载下一页图片的方法
+                        picListPresenter.getPicList(pagerSize);
+                        adapter.notifyDataSetChanged();
+                    }
+                }, 1000);
+            }
+        });
+
+        //设置自动下拉刷新，切记要在recyclerView.setOnLoadListener()之后调用
+        refreshView.setRefreshing(true);
+    }
+
+
+    private PicListView picListView = new PicListView() {
+        @Override
+        public void onSuccess(PicList pic) {
+            data.addAll(pic.getResults());
+            refreshView.complete();
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onError(String result) {
+            ToastyUtil.showError(result);
+            refreshView.setErrorView();
+            refreshView.complete();
+        }
+    };
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        picListPresenter.onStop();
+    }
+
 
     private void setupSearchBar() {
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {

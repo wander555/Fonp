@@ -43,14 +43,13 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
     private Context mContext;
     private List<PicListBean> data;
 
+
+    //百度翻译
     private String  appid="20180326000140123";
     private String  sec_key="jhG0bUkjxG0yESrdhhpU";
 
 
     private TextView textView;
-
-    //初始化Presenter
-    TransPresenter transPresenter = new TransPresenter(getContext());
 
 
     public PicListAdapter(List<PicListBean> data, Context context) {
@@ -73,15 +72,15 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
 
         //tag集合
         String[] dummyTexts = beauty.getTag();
-        for (int i=0;i<dummyTexts.length;i++) {
-            if(i<3){
-                if(dummyTexts[i].length()>2){
-                    TextView textView = buildLabel(dummyTexts[i]);
-                    holder.flowLayout.addView(textView);  // Add TextView to FlowLayout
-                }
-            }
-
-       }
+//        for (int i=0;i<dummyTexts.length;i++) {
+//            if(i<3){
+//                if(dummyTexts[i].length()>2){
+//                    TextView textView = buildLabel(dummyTexts[i]);
+//                    holder.flowLayout.addView(textView);  // Add TextView to FlowLayout
+//                }
+//            }
+//
+//       }
 
         PicassoHelper.loadPaintingImage(holder.beautyImage,beauty.getImg(),"");
 
@@ -117,12 +116,12 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
 
     private TextView buildLabel(String text) {
         //初始化picListPresenter
-        transPresenter.onCreate();
-        transPresenter.attachView(translateView);
-
-        String salt = String.valueOf(System.currentTimeMillis());
-        String src = appid + "fuck" + salt + sec_key; // 加密前的原文
-        transPresenter.getTranslate("fuck","en","zh",appid,salt, MD5Utils.md5(src));
+//        transPresenter.onCreate();
+//        transPresenter.attachView(translateView);
+//
+//        String salt = String.valueOf(System.currentTimeMillis());
+//        String src = appid + "fuck" + salt + sec_key; // 加密前的原文
+//        transPresenter.getTranslate("fuck","en","zh",appid,salt, MD5Utils.md5(src));
 
             textView = new TextView(getContext());
             textView.setText(text);
@@ -133,18 +132,4 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
             return textView;
     }
 
-
-    private TranslateView translateView = new TranslateView() {
-        @Override
-        public void onSuccess(TranslateBean result) {
-            LogUtils.e(result);
-
-            transPresenter.onStop();
-        }
-
-        @Override
-        public void onError(String result) {
-            ToastyUtil.showError(result);
-        }
-    };
 }

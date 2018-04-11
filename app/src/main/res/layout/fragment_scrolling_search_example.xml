@@ -25,22 +25,14 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <TextView
-                android:clipToPadding="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="adfasfasdfsdfasdfasdfasdfasdfas"
-                android:textSize="18sp"/>
-        </android.support.v4.widget.NestedScrollView>
-
-
     </android.support.design.widget.CoordinatorLayout>
+
+    <com.example.refreshview.CustomRefreshView
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="66dp"
+        />
 
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/floating_search_view"

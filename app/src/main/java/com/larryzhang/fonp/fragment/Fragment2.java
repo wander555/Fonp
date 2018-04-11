@@ -18,9 +18,6 @@ import butterknife.ButterKnife;
 
 public class Fragment2 extends Fragment {
 
-
-    private String url = "https://img4.goodfon.com/wallpaper/mobile-s/c/7c/priroda-makro-inei-pautina.jpg";
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
