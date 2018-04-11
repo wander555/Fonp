@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.gyf.barlibrary.ImmersionBar;
 import com.larryzhang.fonp.fragment.BaseExampleFragment;
 import com.larryzhang.fonp.fragment.FolderFragment;
 import com.larryzhang.fonp.fragment.Fragment1;
@@ -42,12 +43,16 @@ public class BottomActivity extends AppCompatActivity implements BaseExampleFrag
     private List<Fragment> mFragments = new ArrayList<Fragment>();
     private FragmentContainerHelper mFragmentContainerHelper = new FragmentContainerHelper();
 
-
+    private ImmersionBar mImmersionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
         ButterKnife.bind(this);
+
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.init();   //所有子类都将继承这些相同的属性
+
 
         BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
                 ("New", ContextCompat.getColor(this, R.color.purple), R.drawable.ic_dashboard_black_24dp);
@@ -125,5 +130,12 @@ public class BottomActivity extends AppCompatActivity implements BaseExampleFrag
         }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
+    }
 
 }

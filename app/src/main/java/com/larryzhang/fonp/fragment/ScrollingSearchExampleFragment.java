@@ -3,6 +3,7 @@ package com.larryzhang.fonp.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
@@ -94,12 +95,13 @@ public class ScrollingSearchExampleFragment extends BaseExampleFragment implemen
         adapter = new PicListAdapter(data,getActivity());
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
 
+
+        refreshView.getRecyclerView().setBackgroundColor(Color.parseColor("#E9E9E9"));
         refreshView.getRecyclerView().setLayoutManager(layoutManager);
         refreshView.setAdapter(adapter);
 
-
         //设置下拉圆圈的颜色
-        refreshView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.blue));
+        refreshView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.black));
 
         refreshView.setOnLoadListener(new CustomRefreshView.OnLoadListener() {
             @Override
