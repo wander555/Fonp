@@ -43,14 +43,11 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
     private Context mContext;
     private List<PicListBean> data;
 
-
     //百度翻译
     private String  appid="20180326000140123";
     private String  sec_key="jhG0bUkjxG0yESrdhhpU";
 
-
     private TextView textView;
-
 
     public PicListAdapter(List<PicListBean> data, Context context) {
         this.data = data;
