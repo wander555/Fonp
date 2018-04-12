@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoomPhotoStyle">
+        <!-- 宽度占屏幕的比例 -->
+        <attr name="widthPer" format="float" />
+        <!-- 高比宽的比例 -->
+        <attr name="hwPer" format="float" />
+    </declare-styleable>
+</resources>

@@ -34,6 +34,7 @@ dependencies {
 
 
 
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -58,7 +59,7 @@ dependencies {
     compile 'com.nex3z:flow-layout:1.2.2'
     compile 'com.github.arimorty:floatingsearchview:2.1.1'
     compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
-
+    compile 'me.immortalz:transitionhelper:2.3.4'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'com.antfortune.freeline:runtime-no-op:0.8.8'
     testCompile 'junit:junit:4.12'

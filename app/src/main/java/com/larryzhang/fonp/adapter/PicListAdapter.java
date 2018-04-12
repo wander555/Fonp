@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
+import com.larryzhang.fonp.BottomActivity;
+import com.larryzhang.fonp.PicDetailActivity;
 import com.larryzhang.fonp.R;
 import com.larryzhang.fonp.bean.PicList;
 import com.larryzhang.fonp.bean.PicListBean;
@@ -30,6 +32,8 @@ import com.nex3z.flowlayout.FlowLayout;
 import org.w3c.dom.Text;
 
 import java.util.List;
+
+import immortalz.me.library.TransitionsHeleper;
 
 import static com.larryzhang.fonp.utils.Utils.getContext;
 
@@ -68,7 +72,7 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
         holder.relativeLayout.setBackgroundColor(Color.parseColor(beauty.getColor()));
 
         //tag集合
-        String[] dummyTexts = beauty.getTag();
+//        String[] dummyTexts = beauty.getTag();
 //        for (int i=0;i<dummyTexts.length;i++) {
 //            if(i<3){
 //                if(dummyTexts[i].length()>2){
@@ -86,7 +90,11 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.PicViewH
         holder.beautyImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastyUtil.showSuccess(String.valueOf(beauty.getId()));
+
+                TransitionsHeleper.startActivity((BottomActivity)mContext, PicDetailActivity.class, v,beauty.getImg());
+
+
+//                ToastyUtil.showSuccess(String.valueOf(beauty.getId()));
             }
         });
 
